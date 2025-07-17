@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Escalas Menores Naturais</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f2f5;
+      padding: 20px;
+      margin: 0;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 1.6rem;
+      margin-bottom: 20px;
+    }
+
+    .scale-display {
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+      background: white;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .options button {
+      padding: 12px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      background-color: #007BFF;
+      color: white;
+      transition: background-color 0.2s ease;
+    }
+
+    .options button:hover {
+      background-color: #0056b3;
+    }
+
+    .feedback {
+      margin-top: 20px;
+      font-size: 1.1rem;
+      font-weight: bold;
+    }
+
+    @media (min-width: 600px) {
+      .options {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .options button {
+        flex: 1 1 40%;
+        max-width: 200px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Escalas Menores Naturais</h1>
+  <div class="scale-display" id="scaleDisplay">Carregando...</div>
+  <div class="options" id="optionsContainer"></div>
+  <div class="feedback" id="feedback"></div>
+
+  <script>
+    const scales = [
+      { name: "Lá Menor Natural", notes: ["A", "B", "C", "D", "E", "F", "G"] },
+      { name: "Mi Menor Natural", notes: ["E", "F#", "G", "A", "B", "C", "D"] },
+      { name: "Si Menor Natural", notes: ["B", "C#", "D", "E", "F#", "G", "A"] },
+      { name: "Fá# Menor Natural", notes: ["F#", "G#", "A", "B", "C#", "D", "E"] },
+      { name: "Dó# Menor Natural", notes: ["C#", "D#", "E", "F#", "G#", "A", "B"] },
+      { name: "Sol# Menor Natural", notes: ["G#", "A#", "B", "C#", "D#", "E", "F#"] },
+      { name: "Ré# Menor Natural", notes: ["D#", "E#", "F#", "G#", "A#", "B", "C#"] },
+      { name: "Ré Menor Natural", notes: ["D", "E", "F", "G", "A", "Bb", "C"] },
+      { name: "Sol Menor Natural", notes: ["G", "A", "Bb", "C", "D", "Eb", "F"] },
+      { name: "Dó Menor Natural", notes: ["C", "D", "Eb", "F", "G", "Ab", "Bb"] },
+      { name: "Fá Menor Natural", notes: ["F", "G", "Ab", "Bb", "C", "Db", "Eb"] },
+      { name: "Sib Menor Natural", notes: ["Bb", "C", "Db", "Eb", "F", "Gb", "Ab"] },
+      { name: "Mib Menor Natural", notes: ["Eb", "F", "Gb", "Ab", "Bb", "Cb", "Db"] },
+      { name: "Láb Menor Natural", notes: ["Ab", "Bb", "Cb", "Db", "Eb", "Fb", "Gb"] }
+    ];
+
+    let correctScale = null;
+
+    function shuffle(array) {
+      return array.sort(() => Math.random() - 0.5);
+    }
+
+    function getRandomOptions(correct, allScales) {
+      const others = shuffle(allScales.filter(s => s !== correct)).slice(0, 3);
+      return shuffle([correct, ...others]);
+    }
+
+    function newQuestion() {
+      correctScale = scales[Math.floor(Math.random() * scales.length)];
+      const options = getRandomOptions(correctScale, scales);
+      const displayedNotes = shuffle([...correctScale.notes]).join(" - ");
+      document.getElementById("scaleDisplay").innerText = `Notas: ${displayedNotes}`;
+
+      const container = document.getElementById("optionsContainer");
+      container.innerHTML = "";
+      options.forEach(option => {
+        const btn = document.createElement("button");
+        btn.textContent = option.name;
+        btn.onclick = () => checkAnswer(option.name);
+        container.appendChild(btn);
+      });
+
+      document.getElementById("feedback").textContent = "";
+    }
+
+    function checkAnswer(selected) {
+      const feedback = document.getElementById("feedback");
+      if (selected === correctScale.name) {
+        feedback.textContent = "✅ Correto!";
+        feedback.style.color = "green";
+      } else {
+        feedback.textContent = `❌ Errado! A resposta certa era: ${correctScale.name}`;
+        feedback.style.color = "red";
+      }
+      setTimeout(newQuestion, 2000);
+    }
+
+    newQuestion();
+  </script>
+</body>
+</html>
