@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Escalas Menores Naturais</title>
+  <title>Qual é a Escala Correta?</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -18,13 +18,11 @@
       margin-bottom: 20px;
     }
 
-    .scale-display {
-      font-size: 1.2rem;
+    .note-display {
+      font-size: 2.5rem;
       margin-bottom: 20px;
-      background: white;
-      padding: 15px;
-      border-radius: 10px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      font-weight: bold;
+      color: #333;
     }
 
     .options {
@@ -34,13 +32,14 @@
     }
 
     .options button {
-      padding: 12px;
+      padding: 14px;
       font-size: 1rem;
       border: none;
       border-radius: 8px;
       background-color: #007BFF;
       color: white;
       transition: background-color 0.2s ease;
+      word-spacing: 8px;
     }
 
     .options button:hover {
@@ -62,33 +61,33 @@
 
       .options button {
         flex: 1 1 40%;
-        max-width: 200px;
+        max-width: 300px;
       }
     }
   </style>
 </head>
 <body>
-  <h1>Escalas Menores Naturais</h1>
-  <div class="scale-display" id="scaleDisplay">Carregando...</div>
+  <h1>Escolha a Escala Correta</h1>
+  <div class="note-display" id="noteDisplay">?</div>
   <div class="options" id="optionsContainer"></div>
   <div class="feedback" id="feedback"></div>
 
   <script>
     const scales = [
-      { name: "Lá Menor Natural", notes: ["A", "B", "C", "D", "E", "F", "G"] },
-      { name: "Mi Menor Natural", notes: ["E", "F#", "G", "A", "B", "C", "D"] },
-      { name: "Si Menor Natural", notes: ["B", "C#", "D", "E", "F#", "G", "A"] },
-      { name: "Fá# Menor Natural", notes: ["F#", "G#", "A", "B", "C#", "D", "E"] },
-      { name: "Dó# Menor Natural", notes: ["C#", "D#", "E", "F#", "G#", "A", "B"] },
-      { name: "Sol# Menor Natural", notes: ["G#", "A#", "B", "C#", "D#", "E", "F#"] },
-      { name: "Ré# Menor Natural", notes: ["D#", "E#", "F#", "G#", "A#", "B", "C#"] },
-      { name: "Ré Menor Natural", notes: ["D", "E", "F", "G", "A", "Bb", "C"] },
-      { name: "Sol Menor Natural", notes: ["G", "A", "Bb", "C", "D", "Eb", "F"] },
-      { name: "Dó Menor Natural", notes: ["C", "D", "Eb", "F", "G", "Ab", "Bb"] },
-      { name: "Fá Menor Natural", notes: ["F", "G", "Ab", "Bb", "C", "Db", "Eb"] },
-      { name: "Sib Menor Natural", notes: ["Bb", "C", "Db", "Eb", "F", "Gb", "Ab"] },
-      { name: "Mib Menor Natural", notes: ["Eb", "F", "Gb", "Ab", "Bb", "Cb", "Db"] },
-      { name: "Láb Menor Natural", notes: ["Ab", "Bb", "Cb", "Db", "Eb", "Fb", "Gb"] }
+      { tonic: "A", notes: ["A", "B", "C", "D", "E", "F", "G"] },
+      { tonic: "E", notes: ["E", "F#", "G", "A", "B", "C", "D"] },
+      { tonic: "B", notes: ["B", "C#", "D", "E", "F#", "G", "A"] },
+      { tonic: "F#", notes: ["F#", "G#", "A", "B", "C#", "D", "E"] },
+      { tonic: "C#", notes: ["C#", "D#", "E", "F#", "G#", "A", "B"] },
+      { tonic: "G#", notes: ["G#", "A#", "B", "C#", "D#", "E", "F#"] },
+      { tonic: "D#", notes: ["D#", "E#", "F#", "G#", "A#", "B", "C#"] },
+      { tonic: "D",  notes: ["D", "E", "F", "G", "A", "Bb", "C"] },
+      { tonic: "G",  notes: ["G", "A", "Bb", "C", "D", "Eb", "F"] },
+      { tonic: "C",  notes: ["C", "D", "Eb", "F", "G", "Ab", "Bb"] },
+      { tonic: "F",  notes: ["F", "G", "Ab", "Bb", "C", "Db", "Eb"] },
+      { tonic: "Bb", notes: ["Bb", "C", "Db", "Eb", "F", "Gb", "Ab"] },
+      { tonic: "Eb", notes: ["Eb", "F", "Gb", "Ab", "Bb", "Cb", "Db"] },
+      { tonic: "Ab", notes: ["Ab", "Bb", "Cb", "Db", "Eb", "Fb", "Gb"] }
     ];
 
     let correctScale = null;
@@ -97,39 +96,46 @@
       return array.sort(() => Math.random() - 0.5);
     }
 
-    function getRandomOptions(correct, allScales) {
-      const others = shuffle(allScales.filter(s => s !== correct)).slice(0, 3);
-      return shuffle([correct, ...others]);
-    }
-
     function newQuestion() {
+      // Escolhe a escala correta
       correctScale = scales[Math.floor(Math.random() * scales.length)];
-      const options = getRandomOptions(correctScale, scales);
-      const displayedNotes = shuffle([...correctScale.notes]).join(" - ");
-      document.getElementById("scaleDisplay").innerText = `Notas: ${displayedNotes}`;
+      const tonic = correctScale.tonic;
 
+      // Gera três escalas erradas que NÃO têm a mesma tônica
+      const wrongScales = shuffle(
+        scales.filter(s => s.tonic !== tonic)
+      ).slice(0, 3);
+
+      // Junta todas as opções e embaralha
+      const options = shuffle([correctScale, ...wrongScales]);
+
+      // Mostra a tônica
+      document.getElementById("noteDisplay").textContent = tonic;
+
+      // Mostra as opções
       const container = document.getElementById("optionsContainer");
       container.innerHTML = "";
-      options.forEach(option => {
+
+      options.forEach(scale => {
         const btn = document.createElement("button");
-        btn.textContent = option.name;
-        btn.onclick = () => checkAnswer(option.name);
+        btn.textContent = scale.notes.join(" - ");
+        btn.onclick = () => checkAnswer(scale);
         container.appendChild(btn);
       });
 
       document.getElementById("feedback").textContent = "";
     }
 
-    function checkAnswer(selected) {
+    function checkAnswer(selectedScale) {
       const feedback = document.getElementById("feedback");
-      if (selected === correctScale.name) {
+      if (selectedScale.tonic === correctScale.tonic) {
         feedback.textContent = "✅ Correto!";
         feedback.style.color = "green";
       } else {
-        feedback.textContent = `❌ Errado! A resposta certa era: ${correctScale.name}`;
+        feedback.textContent = `❌ Errado! A resposta certa era: ${correctScale.notes.join(" - ")}`;
         feedback.style.color = "red";
       }
-      setTimeout(newQuestion, 2000);
+      setTimeout(newQuestion, 2500);
     }
 
     newQuestion();
