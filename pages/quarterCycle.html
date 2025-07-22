@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Ciclo das Quartas</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      background: #f7f7f7;
+      padding: 20px;
+    }
+    .note {
+      font-size: 3rem;
+      margin: 20px 0;
+      font-weight: bold;
+    }
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-width: 300px;
+      margin: auto;
+    }
+    button {
+      padding: 15px;
+      font-size: 1.5rem;
+      border: none;
+      border-radius: 8px;
+      background: #e0e0e0;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button:hover {
+      background: #ccc;
+    }
+    .correct {
+      background-color: #4caf50 !important;
+      color: white;
+    }
+    .wrong {
+      background-color: #f44336 !important;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Qual é a quarta dessa nota?</h1>
+  <div class="note" id="questionNote">C</div>
+  <div class="options" id="optionsContainer"></div>
+
+  <script>
+    const cycleOfFourths = ["C", "F", "Bb", "Eb", "Ab", "Db", "Gb", "B", "E", "A", "D", "G"];
+    
+    function getFourth(note) {
+      const index = cycleOfFourths.indexOf(note);
+      return cycleOfFourths[(index + 1) % cycleOfFourths.length];
+    }
+
+    function shuffle(array) {
+      return array.sort(() => Math.random() - 0.5);
+    }
+
+    function nextQuestion() {
+      const currentIndex = Math.floor(Math.random() * cycleOfFourths.length);
+      const currentNote = cycleOfFourths[currentIndex];
+      const correctAnswer = getFourth(currentNote);
+
+      document.getElementById("questionNote").textContent = currentNote;
+
+      // gerar 3 respostas erradas que não sejam a correta
+      const wrongOptions = shuffle(
+        cycleOfFourths.filter(n => n !== correctAnswer && n !== currentNote)
+      ).slice(0, 3);
+
+      const options = shuffle([correctAnswer, ...wrongOptions]);
+
+      const container = document.getElementById("optionsContainer");
+      container.innerHTML = "";
+
+      options.forEach(option => {
+        const btn = document.createElement("button");
+        btn.textContent = option;
+        btn.onclick = () => {
+          if (option === correctAnswer) {
+            btn.classList.add("correct");
+          } else {
+            btn.classList.add("wrong");
+          }
+          setTimeout(nextQuestion, 1000);
+        };
+        container.appendChild(btn);
+      });
+    }
+
+    nextQuestion();
+  </script>
+
+</body>
+</html>

@@ -3,142 +3,72 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Qual é a Escala Correta?</title>
+  <title>Página Inicial de Exercícios</title>
   <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
     body {
       font-family: Arial, sans-serif;
-      background: #f0f2f5;
+      background: linear-gradient(to right, #4facfe, #00f2fe);
+      color: #fff;
       padding: 20px;
-      margin: 0;
-      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
     }
 
     h1 {
-      font-size: 1.6rem;
-      margin-bottom: 20px;
+      margin-bottom: 30px;
+      text-align: center;
     }
 
-    .note-display {
-      font-size: 2.5rem;
-      margin-bottom: 20px;
-      font-weight: bold;
-      color: #333;
-    }
-
-    .options {
+    .menu {
+      width: 100%;
+      max-width: 400px;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 15px;
     }
 
-    .options button {
-      padding: 14px;
-      font-size: 1rem;
-      border: none;
-      border-radius: 8px;
-      background-color: #007BFF;
+    .menu a {
+      text-decoration: none;
+      background-color: #ffffff22;
       color: white;
-      transition: background-color 0.2s ease;
-      word-spacing: 8px;
+      padding: 15px;
+      text-align: center;
+      border-radius: 8px;
+      font-size: 18px;
+      transition: background-color 0.3s ease;
     }
 
-    .options button:hover {
-      background-color: #0056b3;
+    .menu a:hover {
+      background-color: #ffffff44;
     }
 
-    .feedback {
-      margin-top: 20px;
-      font-size: 1.1rem;
-      font-weight: bold;
-    }
-
-    @media (min-width: 600px) {
-      .options {
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: center;
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 24px;
       }
 
-      .options button {
-        flex: 1 1 40%;
-        max-width: 300px;
+      .menu a {
+        font-size: 16px;
+        padding: 12px;
       }
     }
   </style>
 </head>
 <body>
-  <h1>Escolha a Escala Correta</h1>
-  <div class="note-display" id="noteDisplay">?</div>
-  <div class="options" id="optionsContainer"></div>
-  <div class="feedback" id="feedback"></div>
-
-  <script>
-    const scales = [
-      { tonic: "A", notes: ["A", "B", "C", "D", "E", "F", "G"] },
-      { tonic: "E", notes: ["E", "F#", "G", "A", "B", "C", "D"] },
-      { tonic: "B", notes: ["B", "C#", "D", "E", "F#", "G", "A"] },
-      { tonic: "F#", notes: ["F#", "G#", "A", "B", "C#", "D", "E"] },
-      { tonic: "C#", notes: ["C#", "D#", "E", "F#", "G#", "A", "B"] },
-      { tonic: "G#", notes: ["G#", "A#", "B", "C#", "D#", "E", "F#"] },
-      { tonic: "Eb", notes: ["Eb", "F", "Gb", "Ab", "Bb", "Cb", "Db"] },
-      { tonic: "D",  notes: ["D", "E", "F", "G", "A", "Bb", "C"] },
-      { tonic: "G",  notes: ["G", "A", "Bb", "C", "D", "Eb", "F"] },
-      { tonic: "C",  notes: ["C", "D", "Eb", "F", "G", "Ab", "Bb"] },
-      { tonic: "F",  notes: ["F", "G", "Ab", "Bb", "C", "Db", "Eb"] },
-      { tonic: "Bb", notes: ["Bb", "C", "Db", "Eb", "F", "Gb", "Ab"] },
-      { tonic: "Eb", notes: ["Eb", "F", "Gb", "Ab", "Bb", "Cb", "Db"] },
-      { tonic: "G#", notes: ["G#", "A#", "B", "C#", "D#", "E", "F#"] }
-    ];
-
-    let correctScale = null;
-
-    function shuffle(array) {
-      return array.sort(() => Math.random() - 0.5);
-    }
-
-    function newQuestion() {
-      // Escolhe a escala correta
-      correctScale = scales[Math.floor(Math.random() * scales.length)];
-      const tonic = correctScale.tonic;
-
-      // Gera três escalas erradas que NÃO têm a mesma tônica
-      const wrongScales = shuffle(
-        scales.filter(s => s.tonic !== tonic)
-      ).slice(0, 3);
-
-      // Junta todas as opções e embaralha
-      const options = shuffle([correctScale, ...wrongScales]);
-
-      // Mostra a tônica
-      document.getElementById("noteDisplay").textContent = tonic;
-
-      // Mostra as opções
-      const container = document.getElementById("optionsContainer");
-      container.innerHTML = "";
-
-      options.forEach(scale => {
-        const btn = document.createElement("button");
-        btn.textContent = scale.notes.join(" - ");
-        btn.onclick = () => checkAnswer(scale);
-        container.appendChild(btn);
-      });
-
-      document.getElementById("feedback").textContent = "";
-    }
-
-    function checkAnswer(selectedScale) {
-      const feedback = document.getElementById("feedback");
-      if (selectedScale.tonic === correctScale.tonic) {
-        feedback.textContent = "✅ Correto!";
-        feedback.style.color = "green";
-      } else {
-        feedback.textContent = `❌ Errado! A resposta certa era: ${correctScale.notes.join(" - ")}`;
-        feedback.style.color = "red";
-      }
-      setTimeout(newQuestion, 2500);
-    }
-
-    newQuestion();
-  </script>
+  <h1>Exercícios de Programação</h1>
+  <div class="menu">
+    <a href="./pages/minorScales.html">Escalas Menores</a>
+    <a href="./pages/quarterCycle.html">Ciclo das quartas</a>
+    <a href="./pages/minorAccidents.html">Acidentes Menores</a>
+        <!--<a href="exercicio4.html">Exercício 4 - Calculadora</a> -->
+  </div>
 </body>
 </html>

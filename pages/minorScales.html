@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz de Escalas Menores</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 2rem;
+      background-color: #f7f7f7;
+    }
+    .container {
+      background-color: white;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      max-width: 500px;
+      margin: auto;
+    }
+    button {
+      display: block;
+      width: 100%;
+      margin: 0.5rem 0;
+      padding: 1rem;
+      border: none;
+      border-radius: 0.5rem;
+      background-color: #eee;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    button:hover {
+      background-color: #ddd;
+    }
+    .correct {
+      background-color: #c8f7c5;
+    }
+    .incorrect {
+      background-color: #f7c5c5;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Qual é a escala menor natural de:</h2>
+    <h1 id="tonica">Tônica</h1>
+    <div id="opcoes"></div>
+    <button onclick="novaPergunta()">Próxima</button>
+  </div>
+
+  <script>
+    const dadosEscalas = {
+      A: {
+        correct: ["A", "B", "C", "D", "E", "F", "G"],
+        wrong: [
+          ["A", "B", "C#", "D", "E", "F", "G"],
+          ["A", "Bb", "C", "D", "E", "F", "G"],
+          ["A", "B", "C", "D#", "E", "F#", "G"]
+        ]
+      },
+      Bb: {
+        correct: ["Bb", "C", "Db", "Eb", "F", "Gb", "Ab"],
+        wrong: [
+          ["Bb", "C", "D", "Eb", "F", "Gb", "Ab"],
+          ["Bb", "C", "Db", "E", "F", "Gb", "Ab"],
+          ["Bb", "C", "Db", "Eb", "F#", "Gb", "Ab"]
+        ]
+      },
+      B: {
+        correct: ["B", "C#", "D", "E", "F#", "G", "A"],
+        wrong: [
+          ["B", "C#", "D#", "E", "F#", "G", "A"],
+          ["B", "C#", "D", "E", "F", "G", "A"],
+          ["B", "D", "E", "F#", "G", "A", "C"]
+        ]
+      },
+      C: {
+        correct: ["C", "D", "Eb", "F", "G", "Ab", "Bb"],
+        wrong: [
+          ["C", "D", "E", "F", "G", "Ab", "Bb"],
+          ["C", "D", "Eb", "F#", "G", "Ab", "Bb"],
+          ["C", "D", "Eb", "F", "G", "A", "Bb"]
+        ]
+      },
+      "C#": {
+        correct: ["C#", "D#", "E", "F#", "G#", "A", "B"],
+        wrong: [
+          ["C#", "D#", "E", "F", "G#", "A", "B"],
+          ["C#", "D#", "E", "F#", "G", "A", "B"],
+          ["C#", "D", "E", "F#", "G#", "A", "B"]
+        ]
+      },
+      D: {
+        correct: ["D", "E", "F", "G", "A", "Bb", "C"],
+        wrong: [
+          ["D", "E", "F#", "G", "A", "Bb", "C"],
+          ["D", "Eb", "F", "G", "A", "Bb", "C"],
+          ["D", "E", "F", "G#", "A", "Bb", "C"]
+        ]
+      },
+      Eb: {
+        correct: ["Eb", "F", "Gb", "Ab", "Bb", "Cb", "Db"],
+        wrong: [
+          ["Eb", "F", "G", "Ab", "Bb", "Cb", "Db"],
+          ["Eb", "F", "Gb", "A", "Bb", "Cb", "Db"],
+          ["Eb", "F", "Gb", "Ab", "B", "Cb", "Db"]
+        ]
+      },
+      E: {
+        correct: ["E", "F#", "G", "A", "B", "C", "D"],
+        wrong: [
+          ["E", "F#", "G#", "A", "B", "C", "D"],
+          ["E", "F", "G", "A", "B", "C", "D"],
+          ["E", "F#", "G", "A", "Bb", "C", "D"]
+        ]
+      },
+      F: {
+        correct: ["F", "G", "Ab", "Bb", "C", "Db", "Eb"],
+        wrong: [
+          ["F", "G", "A", "Bb", "C", "Db", "Eb"],
+          ["F", "G", "Ab", "B", "C", "Db", "Eb"],
+          ["F", "G", "Ab", "Bb", "C#", "Db", "Eb"]
+        ]
+      },
+      "F#": {
+        correct: ["F#", "G#", "A", "B", "C#", "D", "E"],
+        wrong: [
+          ["F#", "G#", "A", "B", "C#", "D#", "E"],
+          ["F#", "G", "A", "B", "C#", "D", "E"],
+          ["F#", "G#", "A#", "B", "C#", "D", "E"]
+        ]
+      },
+      G: {
+        correct: ["G", "A", "Bb", "C", "D", "Eb", "F"],
+        wrong: [
+          ["G", "A", "B", "C", "D", "Eb", "F"],
+          ["G", "A", "Bb", "C", "Db", "Eb", "F"],
+          ["G", "A", "Bb", "C", "D", "E", "F#"]
+        ]
+      },
+      Ab: {
+        correct: ["Ab", "Bb", "Cb", "Db", "Eb", "Fb", "Gb"],
+        wrong: [
+          ["Ab", "Bb", "B", "Db", "Eb", "Fb", "Gb"],
+          ["Ab", "Bb", "Cb", "D", "Eb", "Fb", "Gb"],
+          ["Ab", "Bb", "Cb", "Db", "E", "Fb", "Gb"]
+        ]
+      }
+    };
+
+    function novaPergunta() {
+      const tonicas = Object.keys(dadosEscalas);
+      const sorteada = tonicas[Math.floor(Math.random() * tonicas.length)];
+      const escalaCorreta = dadosEscalas[sorteada].correct;
+      const opcoesErradas = dadosEscalas[sorteada].wrong;
+
+      const todasOpcoes = [...opcoesErradas, escalaCorreta]
+        .map(escala => escala.join("-"))
+        .sort(() => Math.random() - 0.5);
+
+      document.getElementById("tonica").innerText = sorteada;
+      const container = document.getElementById("opcoes");
+      container.innerHTML = "";
+
+      todasOpcoes.forEach(opcao => {
+        const botao = document.createElement("button");
+        botao.innerText = opcao;
+        botao.onclick = () => {
+          if (opcao === escalaCorreta.join("-")) {
+            botao.classList.add("correct");
+          } else {
+            botao.classList.add("incorrect");
+          }
+        };
+        container.appendChild(botao);
+      });
+    }
+
+    novaPergunta();
+  </script>
+</body>
+</html>

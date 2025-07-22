@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Bemóis nas Escalas Menores</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f7f7f7;
+      text-align: center;
+      padding: 20px;
+    }
+    h1 {
+      font-size: 1.8rem;
+    }
+    .note {
+      font-size: 2.5rem;
+      font-weight: bold;
+      margin: 20px 0;
+    }
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-width: 300px;
+      margin: auto;
+    }
+    button {
+      padding: 15px;
+      font-size: 1.4rem;
+      border: none;
+      border-radius: 8px;
+      background: #e0e0e0;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button:hover {
+      background: #ccc;
+    }
+    .correct {
+      background-color: #4caf50 !important;
+      color: white;
+    }
+    .wrong {
+      background-color: #f44336 !important;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Quantos bemóis tem esta escala menor?</h1>
+  <div class="note" id="questionNote"></div>
+  <div class="options" id="optionsContainer"></div>
+
+  <script>
+    const minorFlatScales = {
+      "Cm": 3,
+      "C#m": 4,
+      "Dm": 1,
+      "Ebm": 5,
+      "Em": 1,
+      "Fm": 4,
+      "F#m": 3,
+      "Gm": 2,
+      "Abm": 5,
+      "Am": 0,
+      "Bbm": 5,
+      "Bm": 2
+    };
+
+    function shuffle(array) {
+      return array.sort(() => Math.random() - 0.5);
+    }
+
+    function nextQuestion() {
+      const keys = Object.keys(minorFlatScales);
+      const randomKey = keys[Math.floor(Math.random() * keys.length)];
+      const correct = minorFlatScales[randomKey];
+
+      document.getElementById("questionNote").textContent = randomKey;
+
+      // gerar 3 números errados entre 2 e 9, sem repetir o certo
+      const wrong = [];
+      while (wrong.length < 3) {
+        const num = Math.floor(Math.random() * 8) + 2;
+        if (num !== correct && !wrong.includes(num)) {
+          wrong.push(num);
+        }
+      }
+
+      const options = shuffle([correct, ...wrong]);
+
+      const container = document.getElementById("optionsContainer");
+      container.innerHTML = "";
+
+      options.forEach(option => {
+        const btn = document.createElement("button");
+        btn.textContent = `${option} acidentes`;
+        btn.onclick = () => {
+          if (option === correct) {
+            btn.classList.add("correct");
+          } else {
+            btn.classList.add("wrong");
+          }
+          setTimeout(nextQuestion, 1000);
+        };
+        container.appendChild(btn);
+      });
+    }
+
+    nextQuestion();
+  </script>
+
+</body>
+</html>
