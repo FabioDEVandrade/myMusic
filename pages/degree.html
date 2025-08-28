@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Campo Harmônico - Quiz</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background: #f4f4f9;
+    }
+    .container {
+      text-align: center;
+      max-width: 350px;
+      width: 100%;
+      background: white;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0px 4px 10px rgba(0,0,0,0.2);
+    }
+    h1 {
+      font-size: 20px;
+    }
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    .option {
+      padding: 12px;
+      background: #e0e0e0;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: 0.3s;
+    }
+    .option.correct { background: #4caf50; color: white; }
+    .option.wrong { background: #f44336; color: white; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 id="question">Carregando...</h1>
+    <div class="options" id="options"></div>
+  </div>
+
+  <script>
+    const degrees = ["I", "II", "III", "IV", "V", "VI", "VII"];
+
+    const majorScales = {
+      C: ["C", "D", "E", "F", "G", "A", "B"],
+      G: ["G", "A", "B", "C", "D", "E", "F#"],
+      D: ["D", "E", "F#", "G", "A", "B", "C#"],
+      A: ["A", "B", "C#", "D", "E", "F#", "G#"],
+      E: ["E", "F#", "G#", "A", "B", "C#", "D#"],
+      B: ["B", "C#", "D#", "E", "F#", "G#", "A#"],
+      "F#": ["F#", "G#", "A#", "B", "C#", "D#", "E#"],
+      "C#": ["C#", "D#", "E#", "F#", "G#", "A#", "B#"],
+      F: ["F", "G", "A", "Bb", "C", "D", "E"],
+      Bb: ["Bb", "C", "D", "Eb", "F", "G", "A"],
+      Eb: ["Eb", "F", "G", "Ab", "Bb", "C", "D"],
+      Ab: ["Ab", "Bb", "C", "Db", "Eb", "F", "G"],
+      Db: ["Db", "Eb", "F", "Gb", "Ab", "Bb", "C"],
+      Gb: ["Gb", "Ab", "Bb", "Cb", "Db", "Eb", "F"],
+      Cb: ["Cb", "Db", "Eb", "Fb", "Gb", "Ab", "Bb"]
+    };
+
+    function getRandomQuestion() {
+      const keys = Object.keys(majorScales);
+      const randomKey = keys[Math.floor(Math.random() * keys.length)];
+      const scale = majorScales[randomKey];
+      const randomDegree = Math.floor(Math.random() * 7);
+      const correctAnswer = scale[randomDegree];
+      const question = `Qual é o ${degrees[randomDegree]} grau do campo harmônico de ${randomKey} maior?`;
+      return { question, correctAnswer, scale };
+    }
+
+    function generateOptions(correct, scale) {
+      const options = new Set([correct]);
+      while (options.size < 4) {
+        const randomNote = scale[Math.floor(Math.random() * scale.length)];
+        options.add(randomNote);
+      }
+      return Array.from(options).sort(() => Math.random() - 0.5);
+    }
+
+    function loadQuestion() {
+      const { question, correctAnswer, scale } = getRandomQuestion();
+      document.getElementById("question").textContent = question;
+      const optionsDiv = document.getElementById("options");
+      optionsDiv.innerHTML = "";
+
+      const options = generateOptions(correctAnswer, scale);
+      options.forEach(opt => {
+        const btn = document.createElement("button");
+        btn.textContent = opt;
+        btn.className = "option";
+        btn.onclick = () => {
+          if (opt === correctAnswer) {
+            btn.classList.add("correct");
+          } else {
+            btn.classList.add("wrong");
+          }
+          setTimeout(loadQuestion, 1000);
+        };
+        optionsDiv.appendChild(btn);
+      });
+    }
+
+    loadQuestion();
+  </script>
+</body>
+</html>
