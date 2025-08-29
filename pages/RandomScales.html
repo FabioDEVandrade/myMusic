@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Treinador de Campo Harmônico</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background: #f4f4f4;
+    }
+    h2 {
+      font-size: 22px;
+    }
+
+    .removeNotes {
+      font-weight: bold;
+      margin-top: 20px;
+    }
+
+    #contador {
+      font-size: 40px;
+      margin: 20px;
+    }
+    #acorde {
+      font-size: 28px;
+      font-weight: bold;
+      margin-top: 20px;
+    }
+
+    button {
+      padding: 12px 20px;
+      font-size: 18px;
+      margin: 8px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    #start { background: #4CAF50; color: white; }
+    #stop { background: #f44336; color: white; }
+    #noteOn { background: #4CAF50; color: white; }
+    #noteOff { background: #f44336; color: white; }
+    select {
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 6px;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Treinador de Campo Harmônico</h2>
+
+  <label for="tonalidade">Escolha a tonalidade:</label>
+  <select id="tonalidade">
+    <option value="C">C</option>
+    <option value="D">D</option>
+    <option value="E">E</option>
+    <option value="F">F</option>
+    <option value="G">G</option>
+    <option value="A">A</option>
+    <option value="B">B</option>
+  </select>
+
+  <div id="contador">4</div>
+  <div id="acorde">---</div>
+
+  <button id="start">Iniciar</button>
+  <button id="stop">Parar</button>
+  <button id="noteOn" class="removeNotes">Nota-On</button>
+  <button id="noteOff" class="removeNotes">Nota-Off</button>
+
+  <script>
+    const campos = {
+      C: ["C", "Dm", "Em", "F", "G", "Am", "B°"],
+      D: ["D", "Em", "F#m", "G", "A", "Bm", "C#°"],
+      E: ["E", "F#m", "G#m", "A", "B", "C#m", "D#°"],
+      F: ["F", "Gm", "Am", "Bb", "C", "Dm", "E°"],
+      G: ["G", "Am", "Bm", "C", "D", "Em", "F#°"],
+      A: ["A", "Bm", "C#m", "D", "E", "F#m", "G#°"],
+      B: ["B", "C#m", "D#m", "E", "F#", "G#m", "A#°"]
+    };
+
+    const graus = ["I", "II", "III", "IV", "V", "VI", "VII"];
+    let intervalo;
+    let contagem = 4;
+    let acordeAtual = "";
+    let grauAtual = "";
+
+    function iniciar() {
+      const tonalidade = document.getElementById("tonalidade").value;
+      parar(); 
+      contagem = 4;
+      document.getElementById("contador").textContent = contagem;
+      document.getElementById("acorde").textContent = "---";
+
+      intervalo = setInterval(() => {
+        contagem--;
+        if (contagem > 0) {
+          document.getElementById("contador").textContent = contagem;
+        } else {
+          // sorteia grau
+          const sorteio = Math.floor(Math.random() * 7);
+          acordeAtual = campos[tonalidade][sorteio];
+          grauAtual = graus[sorteio];
+
+          document.getElementById("contador").textContent = "▶";
+          document.getElementById("acorde").textContent = grauAtual;
+
+          contagem = 5; 
+        }
+      }, 1000); 
+    }
+
+    function parar() {
+      clearInterval(intervalo);
+    }
+
+    document.getElementById("start").addEventListener("click", iniciar);
+    document.getElementById("stop").addEventListener("click", parar);
+
+    // Note-On → adiciona o acorde junto do grau
+    document.getElementById("noteOn").addEventListener("click", () => {
+      if (grauAtual !== "") {
+        document.getElementById("acorde").textContent = `${grauAtual} - ${acordeAtual}`;
+      }
+    });
+
+    // Note-Off → volta a mostrar só o grau
+    document.getElementById("noteOff").addEventListener("click", () => {
+      if (grauAtual !== "") {
+        document.getElementById("acorde").textContent = grauAtual;
+      }
+    });
+  </script>
+</body>
+</html>
