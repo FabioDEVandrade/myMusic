@@ -1,57 +1,163 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>Bemóis nas Escalas Menores</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lyven Music - Bemóis nas Escalas Menores</title>
+
+  <!-- Ícones Bootstrap -->
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+  >
+
   <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
     body {
-      font-family: sans-serif;
-      background: #f7f7f7;
+      background: linear-gradient(135deg, #2b00ff, #7a00ff);
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 40px 20px;
+      overflow-y: auto;
       text-align: center;
-      padding: 20px;
     }
+
+    /* Fundo decorativo */
+    .background-shape {
+      position: fixed;
+      width: 250px;
+      height: 250px;
+      border-radius: 50%;
+      filter: blur(100px);
+      opacity: 0.5;
+      z-index: -1;
+    }
+
+    .background-shape:first-child {
+      background: #6a00ff;
+      top: 50px;
+      left: -100px;
+    }
+
+    .background-shape:last-child {
+      background: #009dff;
+      bottom: 50px;
+      right: -100px;
+    }
+
+    /* Botão de voltar */
+    .btn-back {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      padding: 8px 14px;
+      font-size: 16px;
+      background-color: #4f46e5;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      z-index: 1000;
+      transition: background 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+    }
+
+    .btn-back:hover {
+      background-color: #3730a3;
+    }
+
     h1 {
-      font-size: 1.8rem;
+      font-size: 2rem;
+      margin-top: 100px;
+      margin-bottom: 20px;
     }
+
     .note {
       font-size: 2.5rem;
       font-weight: bold;
       margin: 20px 0;
     }
+
     .options {
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      max-width: 300px;
-      margin: auto;
+      gap: 15px;
+      width: 100%;
+      max-width: 350px;
+      margin-top: 20px;
     }
+
     button {
       padding: 15px;
-      font-size: 1.4rem;
+      font-size: 1.2rem;
       border: none;
-      border-radius: 8px;
-      background: #e0e0e0;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
       cursor: pointer;
-      transition: 0.3s;
+      transition: all 0.3s ease;
     }
+
     button:hover {
-      background: #ccc;
+      background: rgba(255, 255, 255, 0.2);
+      transform: scale(1.03);
     }
+
     .correct {
-      background-color: #4caf50 !important;
-      color: white;
+      background-color: #22c55e !important;
     }
+
     .wrong {
-      background-color: #f44336 !important;
-      color: white;
+      background-color: #ef4444 !important;
+    }
+
+    footer {
+      margin-top: 40px;
+      font-size: 0.9rem;
+      opacity: 0.7;
+    }
+
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 1.6rem;
+      }
+
+      button {
+        font-size: 1rem;
+        padding: 12px;
+      }
     }
   </style>
 </head>
 <body>
 
+  <!-- Fundo decorativo -->
+  <div class="background-shape"></div>
+  <div class="background-shape"></div>
+
+  <!-- Botão de voltar -->
+  <a href="../index.html" class="btn-back">
+    <i class="bi bi-arrow-left"></i> Voltar
+  </a>
+
   <h1>Quantos bemóis tem esta escala menor?</h1>
   <div class="note" id="questionNote"></div>
   <div class="options" id="optionsContainer"></div>
+
+  <footer>© 2025 Lyven Music</footer>
 
   <script>
     const minorFlatScales = {
@@ -80,29 +186,23 @@
 
       document.getElementById("questionNote").textContent = randomKey;
 
-      // gerar 3 números errados entre 2 e 9, sem repetir o certo
       const wrong = [];
       while (wrong.length < 3) {
-        const num = Math.floor(Math.random() * 8) + 2;
+        const num = Math.floor(Math.random() * 8);
         if (num !== correct && !wrong.includes(num)) {
           wrong.push(num);
         }
       }
 
       const options = shuffle([correct, ...wrong]);
-
       const container = document.getElementById("optionsContainer");
       container.innerHTML = "";
 
       options.forEach(option => {
         const btn = document.createElement("button");
-        btn.textContent = `${option} acidentes`;
+        btn.textContent = `${option} bemóis`;
         btn.onclick = () => {
-          if (option === correct) {
-            btn.classList.add("correct");
-          } else {
-            btn.classList.add("wrong");
-          }
+          btn.classList.add(option === correct ? "correct" : "wrong");
           setTimeout(nextQuestion, 1000);
         };
         container.appendChild(btn);

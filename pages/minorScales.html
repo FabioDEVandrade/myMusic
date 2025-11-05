@@ -3,60 +3,117 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+  >
+
   <title>Escalas Menores - Quiz</title>
   <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
     body {
       font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #2b00ff, #7a00ff);
+      color: #fff;
       padding: 20px;
-      background: #f0f0f0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
       text-align: center;
     }
+
     h1 {
-      margin-bottom: 10px;
+      margin-bottom: 20px;
     }
+
     #tonica {
-      font-size: 2rem;
+      font-size: 2.2rem;
       font-weight: bold;
-      margin: 10px 0 20px;
+      margin: 15px 0 25px;
     }
-    button {
-      display: block;
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
       width: 100%;
-      max-width: 300px;
-      margin: 10px auto;
-      padding: 12px;
-      font-size: 1rem;
-      border: none;
-      border-radius: 8px;
-      background-color: #eee;
-      cursor: pointer;
-      transition: background-color 0.2s;
+      max-width: 400px;
     }
-    button.correct {
-      background-color: #4caf50;
-      color: white;
-    }
-    button.incorrect {
-      background-color: #f44336;
-      color: white;
-    }
-    #proxima {
-      margin-top: 20px;
-      padding: 10px 20px;
-      background-color: #2196f3;
+
+    button {
+      background-color: #ffffff22;
       color: white;
       border: none;
+      padding: 15px;
       border-radius: 8px;
       font-size: 1rem;
       cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #ffffff44;
+    }
+
+    .correct {
+      background-color: #22c55e !important;
+    }
+
+    .incorrect {
+      background-color: #ef4444 !important;
+    }
+
+    .btn-back {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      padding: 8px 14px;
+      font-size: 16px;
+      background-color: #4f46e5;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      z-index: 1000;
+      transition: background 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+    }
+
+    .btn-back:hover {
+      background-color: #3730a3;
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 1.4rem;
+      }
+      #tonica {
+        font-size: 1.8rem;
+      }
+      button {
+        font-size: 0.9rem;
+        padding: 12px;
+      }
     }
   </style>
 </head>
 <body>
+  <a href="../index.html" class="btn-back">
+    <i class="bi bi-arrow-left"></i> Voltar
+  </a>
   <h1>Qual é a escala menor correta?</h1>
   <div id="tonica">?</div>
-  <div id="opcoes"></div>
-  <button id="proxima" onclick="novaPergunta()">Próxima</button>
+  <div class="options" id="opcoes"></div>
 
   <script>
     const dadosEscalas = {
@@ -87,10 +144,10 @@
 
       opcoes.forEach(opcaoTexto => {
         const botao = document.createElement("button");
-        botao.innerText = opcaoTexto;
+        botao.textContent = opcaoTexto;
 
         botao.onclick = () => {
-          const botoes = document.querySelectorAll("#opcoes button");
+          const botoes = document.querySelectorAll(".options button");
           botoes.forEach(b => b.disabled = true);
 
           if (opcaoTexto === correta.join("-")) {
@@ -98,6 +155,8 @@
           } else {
             botao.classList.add("incorrect");
           }
+
+          setTimeout(novaPergunta, 1000);
         };
 
         container.appendChild(botao);

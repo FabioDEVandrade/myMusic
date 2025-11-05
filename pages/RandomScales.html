@@ -2,142 +2,159 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Treinador de Campo Harmônico</title>
+  <title>Ciclo das Quartas</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
   <style>
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
     body {
-      font-family: Arial, sans-serif;
+      font-family: "Poppins", sans-serif;
+      text-align: center;
+      background: linear-gradient(135deg, #2b00ff, #7a00ff);
+      color: white;
+      padding: 20px;
+      min-height: 100vh;
+      margin: 0;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      height: 100vh;
-      background: #f4f4f4;
-    }
-    h2 {
-      font-size: 22px;
+      justify-content: flex-start;
     }
 
-    .removeNotes {
-      font-weight: bold;
-      margin-top: 20px;
+    .btn-back {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background: rgba(255, 255, 255, 0.15);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 15px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 5px;
     }
 
-    #contador {
-      font-size: 40px;
-      margin: 20px;
+    .btn-back:hover {
+      background: rgba(255, 255, 255, 0.3);
     }
-    #acorde {
-      font-size: 28px;
+
+    h1 {
+      margin-top: 80px;
+      font-size: 2rem;
+      font-weight: 600;
+    }
+
+    .note {
+      font-size: 4rem;
+      margin: 30px 0;
       font-weight: bold;
-      margin-top: 20px;
+      color: #fff;
+      text-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      width: 90%;
+      max-width: 320px;
+      margin: 0 auto;
     }
 
     button {
-      padding: 12px 20px;
-      font-size: 18px;
-      margin: 8px;
+      padding: 15px;
+      font-size: 1.2rem;
       border: none;
-      border-radius: 8px;
+      border-radius: 10px;
+      background: white;
+      color: #333;
       cursor: pointer;
+      transition: 0.3s;
+      font-weight: 500;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     }
-    #start { background: #4CAF50; color: white; }
-    #stop { background: #f44336; color: white; }
-    #noteOn { background: #4CAF50; color: white; }
-    #noteOff { background: #f44336; color: white; }
-    select {
-      padding: 10px;
-      font-size: 16px;
-      border-radius: 6px;
-      margin-bottom: 20px;
+
+    button:hover {
+      background: #dcdcdc;
+      transform: scale(1.03);
+    }
+
+    .correct {
+      background-color: #22c55e !important;
+      color: white !important;
+    }
+
+    .wrong {
+      background-color: #ef4444 !important;
+      color: white !important;
     }
   </style>
 </head>
 <body>
 
-  <h2>Treinador de Campo Harmônico</h2>
+  <button class="btn-back" onclick="window.location.href='https://lyvenmusic.carrd.co'">
+    <i class="bi bi-arrow-left"></i> Voltar
+  </button>
 
-  <label for="tonalidade">Escolha a tonalidade:</label>
-  <select id="tonalidade">
-    <option value="C">C</option>
-    <option value="D">D</option>
-    <option value="E">E</option>
-    <option value="F">F</option>
-    <option value="G">G</option>
-    <option value="A">A</option>
-    <option value="B">B</option>
-  </select>
-
-  <div id="contador">4</div>
-  <div id="acorde">---</div>
-
-  <button id="start">Iniciar</button>
-  <button id="stop">Parar</button>
-  <button id="noteOn" class="removeNotes">Nota-On</button>
-  <button id="noteOff" class="removeNotes">Nota-Off</button>
+  <h1>Qual é a quarta dessa nota?</h1>
+  <div class="note" id="questionNote">C</div>
+  <div class="options" id="optionsContainer"></div>
 
   <script>
-    const campos = {
-      C: ["C", "Dm", "Em", "F", "G", "Am", "B°"],
-      D: ["D", "Em", "F#m", "G", "A", "Bm", "C#°"],
-      E: ["E", "F#m", "G#m", "A", "B", "C#m", "D#°"],
-      F: ["F", "Gm", "Am", "Bb", "C", "Dm", "E°"],
-      G: ["G", "Am", "Bm", "C", "D", "Em", "F#°"],
-      A: ["A", "Bm", "C#m", "D", "E", "F#m", "G#°"],
-      B: ["B", "C#m", "D#m", "E", "F#", "G#m", "A#°"]
-    };
-
-    const graus = ["I", "II", "III", "IV", "V", "VI", "VII"];
-    let intervalo;
-    let contagem = 4;
-    let acordeAtual = "";
-    let grauAtual = "";
-
-    function iniciar() {
-      const tonalidade = document.getElementById("tonalidade").value;
-      parar(); 
-      contagem = 4;
-      document.getElementById("contador").textContent = contagem;
-      document.getElementById("acorde").textContent = "---";
-
-      intervalo = setInterval(() => {
-        contagem--;
-        if (contagem > 0) {
-          document.getElementById("contador").textContent = contagem;
-        } else {
-          // sorteia grau
-          const sorteio = Math.floor(Math.random() * 7);
-          acordeAtual = campos[tonalidade][sorteio];
-          grauAtual = graus[sorteio];
-
-          document.getElementById("contador").textContent = "▶";
-          document.getElementById("acorde").textContent = grauAtual;
-
-          contagem = 5; 
-        }
-      }, 1000); 
+    const cycleOfFourths = ["C", "F", "Bb", "Eb", "Ab", "Db", "Gb", "B", "E", "A", "D", "G"];
+    
+    function getFourth(note) {
+      const index = cycleOfFourths.indexOf(note);
+      return cycleOfFourths[(index + 1) % cycleOfFourths.length];
     }
 
-    function parar() {
-      clearInterval(intervalo);
+    function shuffle(array) {
+      return array.sort(() => Math.random() - 0.5);
     }
 
-    document.getElementById("start").addEventListener("click", iniciar);
-    document.getElementById("stop").addEventListener("click", parar);
+    function nextQuestion() {
+      const currentIndex = Math.floor(Math.random() * cycleOfFourths.length);
+      const currentNote = cycleOfFourths[currentIndex];
+      const correctAnswer = getFourth(currentNote);
 
-    // Note-On → adiciona o acorde junto do grau
-    document.getElementById("noteOn").addEventListener("click", () => {
-      if (grauAtual !== "") {
-        document.getElementById("acorde").textContent = `${grauAtual} - ${acordeAtual}`;
-      }
-    });
+      document.getElementById("questionNote").textContent = currentNote;
 
-    // Note-Off → volta a mostrar só o grau
-    document.getElementById("noteOff").addEventListener("click", () => {
-      if (grauAtual !== "") {
-        document.getElementById("acorde").textContent = grauAtual;
-      }
-    });
+      const wrongOptions = shuffle(
+        cycleOfFourths.filter(n => n !== correctAnswer && n !== currentNote)
+      ).slice(0, 3);
+
+      const options = shuffle([correctAnswer, ...wrongOptions]);
+
+      const container = document.getElementById("optionsContainer");
+      container.innerHTML = "";
+
+      options.forEach(option => {
+        const btn = document.createElement("button");
+        btn.textContent = option;
+        btn.onclick = () => {
+          if (option === correctAnswer) {
+            btn.classList.add("correct");
+          } else {
+            btn.classList.add("wrong");
+          }
+          setTimeout(nextQuestion, 1000);
+        };
+        container.appendChild(btn);
+      });
+    }
+
+    nextQuestion();
   </script>
+
 </body>
 </html>
