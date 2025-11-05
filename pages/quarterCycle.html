@@ -1,119 +1,181 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>Ciclo das Quartas</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Lyven Music - Ciclo das Quartas Maiores</title>
+
+  <!-- Ícones Bootstrap -->
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+  >
+
   <style>
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #dbe6f6, #ffffff);
-      text-align: center;
-      min-height: 100vh;
+    * {
       margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #2b00ff, #7a00ff);
+      color: #fff;
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
-      justify-content: center;
       align-items: center;
-      padding: 20px;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Fundo decorativo */
+    .background-shape {
+      position: fixed;
+      width: 250px;
+      height: 250px;
+      border-radius: 50%;
+      filter: blur(100px);
+      opacity: 0.5;
+      z-index: -1;
+    }
+
+    .background-shape:first-child {
+      background: #6a00ff;
+      top: 50px;
+      left: -100px;
+    }
+
+    .background-shape:last-child {
+      background: #009dff;
+      bottom: 50px;
+      right: -100px;
+    }
+
+    /* Botão Voltar */
+    .btn-back {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      padding: 8px 14px;
+      font-size: 16px;
+      background-color: #4f46e5;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      z-index: 10;
+      transition: background 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+    }
+
+    .btn-back:hover {
+      background-color: #3730a3;
+    }
+
+    main {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      max-width: 450px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      padding: 30px 20px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      animation: fadeIn 0.5s ease;
     }
 
     h1 {
-      font-size: 1.6rem;
-      color: #333;
+      font-size: 2rem;
       margin-bottom: 20px;
     }
 
-    .quiz-box {
-      background: white;
-      padding: 25px;
-      border-radius: 16px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      width: 90%;
-      max-width: 380px;
-    }
-
     .note {
-      font-size: 2.5rem;
+      font-size: 3rem;
       font-weight: bold;
       margin: 20px 0;
-      color: #222;
     }
 
     .options {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 15px;
+      width: 100%;
       margin-top: 10px;
     }
 
     button {
-      padding: 14px;
-      font-size: 1.2rem;
+      padding: 15px;
+      font-size: 1.1rem;
       border: none;
       border-radius: 10px;
-      background: #e0e0e0;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
       cursor: pointer;
-      transition: 0.3s;
+      transition: all 0.3s ease;
     }
 
     button:hover {
-      background: #ccc;
+      background: rgba(255, 255, 255, 0.2);
       transform: scale(1.03);
     }
 
     .correct {
       background-color: #22c55e !important;
-      color: white;
     }
 
     .wrong {
       background-color: #ef4444 !important;
-      color: white;
     }
 
-    .btn-back {
-      position: fixed;
-      top: 15px;
-      left: 15px;
-      background: rgba(255, 255, 255, 0.8);
-      border: none;
-      border-radius: 8px;
-      padding: 10px 15px;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: 0.3s;
-      backdrop-filter: blur(6px);
-    }
-
-    .btn-back:hover {
-      background: #ddd;
+    footer {
+      position: absolute;
+      bottom: 10px;
+      font-size: 0.9rem;
+      opacity: 0.7;
     }
 
     @media (max-width: 600px) {
-      .quiz-box {
-        padding: 20px;
-      }
       h1 {
-        font-size: 1.3rem;
+        font-size: 1.6rem;
       }
       .note {
         font-size: 2.2rem;
       }
       button {
         font-size: 1rem;
+        padding: 12px;
       }
     }
   </style>
 </head>
 <body>
 
-  <button class="btn-back" onclick="window.location.href='https://lyvenmusic.carrd.co'">⬅ Voltar</button>
+  <div class="background-shape"></div>
+  <div class="background-shape"></div>
 
-  <div class="quiz-box">
+  <a href="../index.html" class="btn-back">
+    <i class="bi bi-arrow-left"></i> Voltar
+  </a>
+
+  <main>
     <h1>Qual é a quarta dessa nota?</h1>
     <div class="note" id="questionNote">C</div>
     <div class="options" id="optionsContainer"></div>
-  </div>
+  </main>
+
+  <footer>2025 Lyven Music</footer>
 
   <script>
     const cycleOfFourths = ["C", "F", "Bb", "Eb", "Ab", "Db", "Gb", "B", "E", "A", "D", "G"];

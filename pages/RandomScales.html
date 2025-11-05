@@ -2,10 +2,15 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Ciclo das Quartas</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
-  <style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+  >
+
+  <title>Treinador de Campo Harmônico</title>
+  <style>
     * {
       margin: 0;
       padding: 0;
@@ -14,147 +19,217 @@
     }
 
     body {
-      font-family: "Poppins", sans-serif;
-      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
       background: linear-gradient(135deg, #2b00ff, #7a00ff);
       color: white;
-      padding: 20px;
-      min-height: 100vh;
-      margin: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
+      text-align: center;
+      overflow: hidden;
     }
 
+    /* Botão Voltar */
     .btn-back {
-      position: absolute;
+      position: fixed;
       top: 20px;
       left: 20px;
-      background: rgba(255, 255, 255, 0.15);
+      padding: 8px 14px;
+      font-size: 16px;
+      background-color: #4f46e5;
       color: white;
       border: none;
       border-radius: 8px;
-      padding: 10px 15px;
-      font-size: 1rem;
       cursor: pointer;
-      transition: 0.3s;
+      z-index: 10;
+      transition: background 0.3s, transform 0.2s;
       display: flex;
       align-items: center;
-      gap: 5px;
+      gap: 6px;
+      text-decoration: none;
     }
 
     .btn-back:hover {
-      background: rgba(255, 255, 255, 0.3);
+      background-color: #3730a3;
+      transform: scale(1.05);
     }
 
-    h1 {
-      margin-top: 80px;
-      font-size: 2rem;
-      font-weight: 600;
-    }
-
-    .note {
-      font-size: 4rem;
-      margin: 30px 0;
-      font-weight: bold;
-      color: #fff;
-      text-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    }
-
-    .options {
+    main {
       display: flex;
       flex-direction: column;
-      gap: 15px;
+      align-items: center;
+      justify-content: center;
       width: 90%;
-      max-width: 320px;
-      margin: 0 auto;
+      max-width: 450px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      padding: 30px 20px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      animation: fadeIn 0.5s ease;
+      text-align: center;
     }
 
-    button {
-      padding: 15px;
-      font-size: 1.2rem;
+    h2 {
+      font-size: 26px;
+      margin-bottom: 20px;
+      text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+      width: 100%;
+      text-align: center;
+    }
+
+    label {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+
+    select {
+      padding: 10px 16px;
+      font-size: 16px;
+      border-radius: 8px;
       border: none;
-      border-radius: 10px;
-      background: white;
-      color: #333;
-      cursor: pointer;
-      transition: 0.3s;
-      font-weight: 500;
+      outline: none;
+      background: #ffffff;
+      color: #2a5298;
+      margin-bottom: 25px;
+      font-weight: 600;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     }
 
-    button:hover {
-      background: #dcdcdc;
-      transform: scale(1.03);
+    #contador {
+      font-size: 60px;
+      margin: 20px 0;
+      font-weight: bold;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
     }
 
-    .correct {
-      background-color: #22c55e !important;
-      color: white !important;
+    #acorde {
+      font-size: 32px;
+      font-weight: bold;
+      margin-top: 15px;
+      color: #fff;
+      text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
     }
 
-    .wrong {
-      background-color: #ef4444 !important;
-      color: white !important;
+    button {
+      padding: 12px 28px;
+      font-size: 18px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: bold;
+      margin: 10px;
+      transition: 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    #start {
+      background: #22c55e;
+      color: white;
+    }
+    #start:hover {
+      background: #45a049;
+      transform: scale(1.05);
+    }
+
+    #stop {
+      background: #ef4444;
+      color: white;
+    }
+    #stop:hover {
+      background: #d73228;
+      transform: scale(1.05);
+    }
+
+    footer {
+      position: fixed;
+      bottom: 15px;
+      font-size: 14px;
+      opacity: 0.7;
+      width: 100%;
+      text-align: center;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
 <body>
 
-  <button class="btn-back" onclick="window.location.href='https://lyvenmusic.carrd.co'">
+  <a href="../index.html" class="btn-back">
     <i class="bi bi-arrow-left"></i> Voltar
-  </button>
+  </a>
 
-  <h1>Qual é a quarta dessa nota?</h1>
-  <div class="note" id="questionNote">C</div>
-  <div class="options" id="optionsContainer"></div>
+  <main>
+    <h2>🎵 Treinador de Campo Harmônico 🎶</h2>
+
+    <label for="tonalidade">Escolha a tonalidade:</label>
+    <select id="tonalidade">
+      <option value="C">C</option>
+      <option value="D">D</option>
+      <option value="E">E</option>
+      <option value="F">F</option>
+      <option value="G">G</option>
+      <option value="A">A</option>
+      <option value="B">B</option>
+    </select>
+
+    <div id="contador">4</div>
+    <div id="acorde">---</div>
+
+    <button id="start">Iniciar</button>
+    <button id="stop">Parar</button>
+  </main>
+
+  <footer>Lyven Music</footer>
 
   <script>
-    const cycleOfFourths = ["C", "F", "Bb", "Eb", "Ab", "Db", "Gb", "B", "E", "A", "D", "G"];
-    
-    function getFourth(note) {
-      const index = cycleOfFourths.indexOf(note);
-      return cycleOfFourths[(index + 1) % cycleOfFourths.length];
+    const campos = {
+      C: ["C", "Dm", "Em", "F", "G", "Am", "B°"],
+      D: ["D", "Em", "F#m", "G", "A", "Bm", "C#°"],
+      E: ["E", "F#m", "G#m", "A", "B", "C#m", "D#°"],
+      F: ["F", "Gm", "Am", "Bb", "C", "Dm", "E°"],
+      G: ["G", "Am", "Bm", "C", "D", "Em", "F#°"],
+      A: ["A", "Bm", "C#m", "D", "E", "F#m", "G#°"],
+      B: ["B", "C#m", "D#m", "E", "F#", "G#m", "A#°"]
+    };
+
+    const graus = ["I", "II", "III", "IV", "V", "VI", "VII"];
+    let intervalo;
+    let contagem = 4;
+
+    function iniciar() {
+      const tonalidade = document.getElementById("tonalidade").value;
+      parar();
+      contagem = 4;
+      document.getElementById("contador").textContent = contagem;
+      document.getElementById("acorde").textContent = "---";
+
+      intervalo = setInterval(() => {
+        contagem--;
+        if (contagem > 0) {
+          document.getElementById("contador").textContent = contagem;
+        } else {
+          const sorteio = Math.floor(Math.random() * 7);
+          const acordeAtual = campos[tonalidade][sorteio];
+          const grauAtual = graus[sorteio];
+
+          document.getElementById("contador").textContent = "▶";
+          document.getElementById("acorde").textContent = `${grauAtual}`;
+
+          contagem = 5;
+        }
+      }, 1000);
     }
 
-    function shuffle(array) {
-      return array.sort(() => Math.random() - 0.5);
+    function parar() {
+      clearInterval(intervalo);
     }
 
-    function nextQuestion() {
-      const currentIndex = Math.floor(Math.random() * cycleOfFourths.length);
-      const currentNote = cycleOfFourths[currentIndex];
-      const correctAnswer = getFourth(currentNote);
-
-      document.getElementById("questionNote").textContent = currentNote;
-
-      const wrongOptions = shuffle(
-        cycleOfFourths.filter(n => n !== correctAnswer && n !== currentNote)
-      ).slice(0, 3);
-
-      const options = shuffle([correctAnswer, ...wrongOptions]);
-
-      const container = document.getElementById("optionsContainer");
-      container.innerHTML = "";
-
-      options.forEach(option => {
-        const btn = document.createElement("button");
-        btn.textContent = option;
-        btn.onclick = () => {
-          if (option === correctAnswer) {
-            btn.classList.add("correct");
-          } else {
-            btn.classList.add("wrong");
-          }
-          setTimeout(nextQuestion, 1000);
-        };
-        container.appendChild(btn);
-      });
-    }
-
-    nextQuestion();
+    document.getElementById("start").addEventListener("click", iniciar);
+    document.getElementById("stop").addEventListener("click", parar);
   </script>
-
 </body>
 </html>
