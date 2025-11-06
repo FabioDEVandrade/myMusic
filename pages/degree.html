@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="../assets/css/global.css">
+  <link rel="stylesheet" href="../assets/css/degree.css">
 
   <title>Lyven Music - Graus do Campo Harmônico Maior</title>
 
@@ -12,149 +14,8 @@
     href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
   >
 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: "Poppins", sans-serif;
-    }
-
-    body {
-      background: linear-gradient(135deg, #2b00ff, #7a00ff);
-      color: #fff;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 40px 20px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    /* Fundo decorativo */
-    .background-shape {
-      position: fixed;
-      width: 250px;
-      height: 250px;
-      border-radius: 50%;
-      filter: blur(100px);
-      opacity: 0.5;
-      z-index: -1;
-    }
-
-    .background-shape:first-child {
-      background: #6a00ff;
-      top: 50px;
-      left: -100px;
-    }
-
-    .background-shape:last-child {
-      background: #009dff;
-      bottom: 50px;
-      right: -100px;
-    }
-
-    /* Botão Voltar */
-    .btn-back {
-      position: absolute;
-      top: 20px;
-      left: 20px;
-      padding: 8px 14px;
-      font-size: 16px;
-      background-color: #4f46e5;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      z-index: 10;
-      transition: background 0.3s;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      text-decoration: none;
-    }
-
-    .btn-back:hover {
-      background-color: #3730a3;
-    }
-
-    main {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-      max-width: 450px;
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
-      border-radius: 15px;
-      padding: 30px 20px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-      animation: fadeIn 0.5s ease;
-    }
-
-    h1 {
-      font-size: 1.6rem;
-      margin-bottom: 20px;
-    }
-
-    .options {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-      width: 100%;
-    }
-
-    .option {
-      padding: 15px;
-      font-size: 1.1rem;
-      border: none;
-      border-radius: 10px;
-      background: rgb(255 255 255 / 20%);
-      color: white;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    .option:hover {
-      background: rgba(255, 255, 255, 0.2);
-      transform: scale(1.03);
-    }
-
-    .option.correct {
-      background-color: #22c55e !important;
-    }
-
-    .option.wrong {
-      background-color: #ef4444 !important;
-    }
-
-    footer {
-      position: absolute;
-      bottom: 10px;
-      font-size: 0.9rem;
-      opacity: 0.7;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @media (max-width: 600px) {
-      h1 {
-        font-size: 1.4rem;
-      }
-      .option {
-        font-size: 1rem;
-        padding: 12px;
-      }
-    }
-  </style>
 </head>
+
 <body>
 
   <div class="background-shape"></div>
@@ -198,7 +59,7 @@
       const scale = majorScales[randomKey];
       const randomDegree = Math.floor(Math.random() * 7);
       const correctAnswer = scale[randomDegree];
-      const question = `Qual é o ${degrees[randomDegree]} grau do campo harmônico de ${randomKey} maior?`;
+      const question = `Qual é o ${degrees[randomDegree]} grau da escala de ${randomKey} maior?`;
       return { question, correctAnswer, scale };
     }
 

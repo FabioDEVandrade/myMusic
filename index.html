@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Lyven Music - Exercícios</title>
+  <link rel="stylesheet" href="./assets/css/global.css">
+  <link rel="stylesheet" href="./assets/css/index.css">
 
   <!-- Ícones Bootstrap -->
   <link
@@ -11,132 +13,6 @@
     href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
   >
 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: "Poppins", sans-serif;
-    }
-
-    body {
-      background: linear-gradient(135deg, #2b00ff, #7a00ff);
-      color: #fff;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      padding: 40px 20px;
-      overflow-y: auto;
-    }
-
-    /* Botão de voltar */
-    .btn-back {
-      position: fixed;
-      top: 20px;
-      left: 20px;
-      padding: 8px 14px;
-      font-size: 16px;
-      background-color: #4f46e5;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      z-index: 1000;
-      transition: background 0.3s;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      text-decoration: none;
-    }
-
-    .btn-back:hover {
-      background-color: #3730a3;
-    }
-
-    /* Logo */
-    .logo {
-      display: block;
-      margin: 60px auto 20px auto;
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      object-fit: cover;
-      box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
-    }
-
-    h1 {
-      font-size: 2.5rem;
-      margin-bottom: 30px;
-      text-align: center;
-    }
-
-    .menu {
-      width: 100%;
-      max-width: 400px;
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-    }
-
-    .menu a {
-      text-decoration: none;
-      background: rgb(255 255 255 / 20%);
-      color: white;
-      padding: 15px;
-      text-align: center;
-      border-radius: 10px;
-      font-size: 18px;
-      transition: background-color 0.3s ease, transform 0.2s ease;
-    }
-
-    .menu a:hover {
-      background-color: rgba(255, 255, 255, 0.2);
-      transform: scale(1.03);
-    }
-
-    footer {
-      margin-top: 50px;
-      font-size: 0.9rem;
-      opacity: 0.7;
-      text-align: center;
-    }
-
-    /* Fundo decorativo */
-    .background-shape {
-      position: fixed;
-      width: 250px;
-      height: 250px;
-      border-radius: 50%;
-      filter: blur(100px);
-      opacity: 0.5;
-      z-index: -1;
-    }
-
-    .background-shape:first-child {
-      background: #6a00ff;
-      top: 50px;
-      left: -100px;
-    }
-
-    .background-shape:last-child {
-      background: #009dff;
-      bottom: 50px;
-      right: -100px;
-    }
-
-    @media (max-width: 600px) {
-      h1 {
-        font-size: 2rem;
-      }
-
-      .menu a {
-        font-size: 16px;
-        padding: 12px;
-      }
-    }
-  </style>
 </head>
 <body>
 
